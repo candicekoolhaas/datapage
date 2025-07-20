@@ -7,27 +7,24 @@ viewof color_var = Inputs.select(disc_opts, {value: Array.from(disc_opts.values(
 ```
 
 ```{ojs}
+// Sets the colors
 default_color = d3.schemeCategory10[0]
 plt_color = color_var || default_color
 
+// Gets all the variables
 all_vars = cont_vars.concat(disc_vars)
 channels = Object.fromEntries(all_vars.map(k => [k[1], k[1]]))
 
-// This just makes the scatter plot
-viewof scatter = Plot.plot({
-  style: { fontFamily: "var(--sans-serif)" },
-  inset: 8,
-   grid: true,
-      x: { tickFormat: "" },
-  color: { legend: true },
+viewof dodgePlot = Plot.plot({
+  y: {grid: true},
+  color: {legend: true},
   marks: [
-    Plot.dot(d, {
-      x: x_var,
-      y: y_var,
-      stroke: plt_color,
-      tip: true,
-      channels: channels
-    }),
+    Plot.dot(d, Plot.dodgeX("middle", {fx: x_var, y: y_var, fill: plt_color}))
   ]
 })
+
+// This sets the placement
+html`<div style="display: flex; flex-wrap: wrap; align-items: flex-end;">
+ <div style="flex-basis: 25%"> ${viewof dodgePlot} </div>
+</div>`
 ```

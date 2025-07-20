@@ -1,22 +1,23 @@
 project:
-  title: "Palmer Penguins"
+  title: "MB1 test" # Browser tab title
   type: datapage
+  output-dir: docs
 
 website:
   navbar:
-    logo: images/logo.png
+    logo: images/logo.png # logo on the navigation bar
 
 format:
   datapage-html:
     theme: theme.scss
 
 execute: 
-  echo: false
-  message: false
-  warning: false
-  error: false
+  echo: false # don't show code
+  message: false # don't show messages
+  warning: false # don't show warnings
+  error: false # don't show errors
 
 redivis:
   user: datapages
-  dataset: palmerpenguins
-  table: penguins
+  dataset: Many Babies 1 # changed from palmerpenguins
+  table: 02_validated_output # changed from penguins

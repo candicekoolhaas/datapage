@@ -1,4 +1,5 @@
 ```{r}
+# Below is all old from the penguins default
 # dataset <- redivis::organization("datapages")$dataset("palmerpenguins")
 # penguins <- dataset$table("penguins")$to_tibble()
 # ojs_define(data = penguins)
@@ -20,6 +21,7 @@ if ("redivis" %in% names(quarto) &&
   }
   
   # get table data
+  # (has to be a tibble to work with)
   table <- dataset$table(quarto$redivis$table)
   data <- table$to_tibble()
 
@@ -27,6 +29,7 @@ if ("redivis" %in% names(quarto) &&
   vars <- map(table$list_variables(), \(v) v$get(wait_for_statistics=TRUE)$properties)
 
   # pass to OJS
+  # (this makes the data available for the javascript environment)
   ojs_define(data = data)
   ojs_define(vars = vars)
   
@@ -37,15 +40,20 @@ if ("redivis" %in% names(quarto) &&
 ```
 
 ```{ojs}
+// Below pulls in the Observable library for plotting
 Plot = import("https://esm.sh/@observablehq/plot@0.6.13")
+// Below makes the data easier to access
 d = transpose(data)
 
+// Anything less than 10 unique values will be treated as categorical!
 distinct_cutoff = 10
 
+// Huh below turns categorical vars into a dropdown list
 disc_types = ['string', 'boolean']
 disc_vars = vars.filter(d => disc_types.includes(d.type) && d.statistics.numDistinct <= distinct_cutoff).map(d => [d.label ? d.label : d.name, d.name])
 disc_opts = new Map([['', null]].concat(disc_vars))
 
+// And below creates dropdowns for continuous variables
 cont_types = ['integer', 'float', 'date', 'datetime', 'time']
 cont_vars = vars.filter(d => cont_types.includes(d.type) && d.statistics.numDistinct > distinct_cutoff).map(d => [d.label ? d.label : d.name, d.name])
 cont_opts = new Map(cont_vars)

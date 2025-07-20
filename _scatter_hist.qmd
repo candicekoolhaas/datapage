@@ -7,12 +7,15 @@ viewof color_var = Inputs.select(disc_opts, {value: Array.from(disc_opts.values(
 ```
 
 ```{ojs}
+// Sets the colors
 default_color = d3.schemeCategory10[0]
 plt_color = color_var || default_color
 
+// Gets all the variables
 all_vars = cont_vars.concat(disc_vars)
 channels = Object.fromEntries(all_vars.map(k => [k[1], k[1]]))
 
+// This one makes the scatter plot
 viewof scatter = Plot.plot({
   style: { fontFamily: "var(--sans-serif)" },
   inset: 8,
@@ -30,6 +33,7 @@ viewof scatter = Plot.plot({
   ]
 })
 
+// This one makes the X variable histogram
 viewof x_hist = Plot.plot({
   style: { fontFamily: "var(--sans-serif)" },
   width: 640/2,
@@ -41,6 +45,7 @@ viewof x_hist = Plot.plot({
   ]
 })
 
+// This one makes the Y variable histogram
 viewof y_hist = Plot.plot({
   style: { fontFamily: "var(--sans-serif)" },
   width: 640/2,
@@ -51,6 +56,7 @@ viewof y_hist = Plot.plot({
   ]
 })
 
+// This sets the placement
 html`<div style="display: flex; flex-wrap: wrap; align-items: flex-end;">
  <div style="flex-basis: 25%"> ${viewof y_hist} </div>
  <div style="flex-basis: 50%"> ${viewof scatter} </div>
